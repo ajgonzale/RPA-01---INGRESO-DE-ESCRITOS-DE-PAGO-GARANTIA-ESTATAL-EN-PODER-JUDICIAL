@@ -28,7 +28,7 @@ def solve_challenge():
         page.get_by_role("heading", name="Ingreso de demandas y escritos").wait_for()
         page.get_by_role("button", name="Clave Poder Judicial").first.click()
         page.get_by_role("textbox", name="Ej: 12345678 (Rut sin guión").click()
-        page.get_by_role("textbox", name="Ej: 12345678 (Rut sin guión").fill("11346197")
+        page.get_by_role("textbox", name="Ej: 12345678 (Rut sin guión").fill("11346197123")
         page.locator("#inputPassword2C").click()
         page.locator("#inputPassword2C").fill("Talaveras1551+")
         page.get_by_role("button", name="Ingresar").click()
