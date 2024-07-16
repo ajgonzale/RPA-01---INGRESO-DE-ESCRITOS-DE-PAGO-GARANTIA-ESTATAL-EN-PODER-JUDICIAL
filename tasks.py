@@ -13,7 +13,7 @@ EXCEL_URL = f"https://rpachallenge.com/assets/downloadFiles/{FILE_NAME}"
 EXCEL_FILE_NAME = "./input/Libro1 (PRUEBAS).xlsx"
 
 @task
-def RPA_01():
+def RPA_01_Ingreso():
     """
     RPA 01 - Ingreso de escritos de pago garantia estatal en poder judicial.
     
@@ -35,7 +35,7 @@ def RPA_01():
         page.locator("#roles-modal").get_by_text("Seleccione Perfil").wait_for()
         page.get_by_text("11.346.197-7").click()
 
-        #read_excel_preingreso(EXCEL_FILE_NAME)
+        read_excel_preingreso(EXCEL_FILE_NAME)
 
         read_excel_envio(EXCEL_FILE_NAME)
         """
@@ -62,6 +62,7 @@ def RPA_01():
     finally:
         # Place for teardown and cleanups
         # Playwright handles browser closing
+        #browser.close();
         print('Done')
 
 
@@ -92,4 +93,32 @@ def fill_and_submit_form(row):
     page.fill("//input[@ng-reflect-name='labelPhone']", str(row["Phone Number"]))
     page.click("input:text('Submit')")
 
+def RPA_01_Envio():
+    """
+    RPA 01 - Ingreso de escritos de pago garantia estatal en poder judicial.
+    
+    """
+    browser.configure(
+        browser_engine="chromium",
+        screenshot="only-on-failure",
+        headless=False,
+    )
+    try:
+        page = browser.goto("https://ojv.pjud.cl/kpitec-ojv-web/views/login.html")
+        page.get_by_role("heading", name="Ingreso de demandas y escritos").wait_for()
+        page.get_by_role("button", name="Clave Poder Judicial").first.click()
+        page.get_by_role("textbox", name="Ej: 12345678 (Rut sin guión").click()
+        page.get_by_role("textbox", name="Ej: 12345678 (Rut sin guión").fill("11346197")
+        page.locator("#inputPassword2C").click()
+        page.locator("#inputPassword2C").fill("Talaveras1551+")
+        page.get_by_role("button", name="Ingresar").click()
+        page.locator("#roles-modal").get_by_text("Seleccione Perfil").wait_for()
+        page.get_by_text("11.346.197-7").click()
 
+        read_excel_envio(EXCEL_FILE_NAME)
+
+    finally:
+        # Place for teardown and cleanups
+        # Playwright handles browser closing
+        #browser.close();
+        print('Done')
