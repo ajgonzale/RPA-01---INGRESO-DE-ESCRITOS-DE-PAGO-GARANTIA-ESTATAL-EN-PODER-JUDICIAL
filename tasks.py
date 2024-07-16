@@ -5,17 +5,15 @@ from RPA.Excel.Files import Files as Excel
 from pathlib import Path
 import os
 import requests
-from functions import read_excel 
+from functions import read_excel_preingreso, read_excel_envio
 
 FILE_NAME = "challenge.xlsx"
 OUTPUT_DIR = Path(os.environ.get('ROBOT_ARTIFACTS'))
 EXCEL_URL = f"https://rpachallenge.com/assets/downloadFiles/{FILE_NAME}"
-EXCEL_FILE_NAME = "./input/Libro1.xlsx"
-
-
+EXCEL_FILE_NAME = "./input/Libro1 (PRUEBAS).xlsx"
 
 @task
-def solve_challenge():
+def RPA_01():
     """
     RPA 01 - Ingreso de escritos de pago garantia estatal en poder judicial.
     
@@ -37,7 +35,9 @@ def solve_challenge():
         page.locator("#roles-modal").get_by_text("Seleccione Perfil").wait_for()
         page.get_by_text("11.346.197-7").click()
 
-        read_excel(EXCEL_FILE_NAME)
+        #read_excel_preingreso(EXCEL_FILE_NAME)
+
+        read_excel_envio(EXCEL_FILE_NAME)
         """
         
         
