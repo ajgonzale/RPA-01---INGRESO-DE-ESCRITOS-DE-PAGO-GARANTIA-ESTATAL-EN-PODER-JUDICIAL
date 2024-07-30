@@ -137,6 +137,7 @@ def read_excel_envio(path: str):
 
     """
     print('Envio')
+    roles_done = []
     excel = Excel()
     excel.open_workbook(path)
     rows = excel.read_worksheet_as_table("Hoja1", header=True)
@@ -158,6 +159,7 @@ def read_excel_envio(path: str):
                 fill_form_envio(row)
                 excel.set_cell_value(numero,envioIndex,"OK")
                 print(row["ROL"])
+                roles_done.append(row["ROL"])
             except :
                 excel.set_cell_value(numero,len(row.keys()),"ERROR")
                 page = browser.page()
@@ -170,6 +172,7 @@ def read_excel_envio(path: str):
     excel.save_workbook(path)
     excel.close_workbook()
     print('Done Envio')
+    return roles_done
 
 def fill_form_envio(row):
 
@@ -216,3 +219,24 @@ def fill_form_envio(row):
     page.locator("xpath=//div[@id='modalConfirmarEliminar']/div/div/div[2]/div/div/div[2]/button").click()
 
     page.get_by_text("Mantenedor").click()
+
+def compare_results() :
+        
+    page = browser.page()
+    page.get_by_text("Bandeja Escrito").click()
+    
+    time.sleep(5)
+
+    page.locator("xpath=//label[contains(.,'Competencia:')]").wait_for()
+    page.locator("xpath=//label[contains(.,'Competencia:')]").click()
+    page.press("body", "Tab")
+    page.keyboard.type("Civil") 
+    page.press("body", "Tab")
+
+    page.locator("a:has-text('Escritos Enviados')").click()
+    time.sleep(2)
+    #page.press("body", "Tab")
+    #page.press("body", "Enter")
+    page.locator("xpath=//button[contains(.,'Exportar Excel')]").click()
+    
+    time.sleep(120)
